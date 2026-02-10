@@ -4,7 +4,7 @@ Mount-DiskImage -ImagePath $ISO | Out-Null
 
 $Drive = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter + ':'
 
-New-Item Sources -ItemType Directory -Force | Out-Null
+New-Item Sources -ItemType Directory | Out-Null
 Copy-Item -Path "$Drive\*" -Destination Sources -Recurse -Force
 
 Dismount-DiskImage -ImagePath $ISO | Out-Null
