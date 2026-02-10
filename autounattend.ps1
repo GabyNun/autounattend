@@ -1,8 +1,5 @@
 $ISO = 'C:\Users\User\Documents\Windows.iso'
-
-Mount-DiskImage -ImagePath $ISO | Out-Null
-
-$Drive = (Get-DiskImage -ImagePath $ISO | Get-Volume).DriveLetter + ':'
+$Drive = (Get-DiskImage -ImagePath $ISO | Mount-DiskImage | Get-Volume).DriveLetter + ':'
 
 New-Item Sources -ItemType Directory | Out-Null
 Copy-Item -Path "$Drive\*" -Destination Sources -Recurse -Force
@@ -14,5 +11,4 @@ irm https://github.com/GabyNun/autounattend/raw/main/oscdimg.exe -Out oscdimg.ex
 
 .\oscdimg.exe "-bSources\efi\microsoft\boot\efisys.bin" -u2 Sources autounattend.iso
 
-Remove-Item Sources -Recurse -Force
-Remove-Item oscdimg.exe
+Remove-Item Sources, oscdimg.exe -Recurse -Force
